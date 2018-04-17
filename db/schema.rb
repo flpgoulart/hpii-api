@@ -10,12 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180417171330) do
+ActiveRecord::Schema.define(version: 20180417230359) do
 
   create_table "occupation_areas", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "social_entities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.text     "about_us",           limit: 65535
+    t.string   "phone_number"
+    t.string   "mobile_number"
+    t.string   "email_contact"
+    t.string   "site"
+    t.string   "address"
+    t.integer  "user_id"
+    t.integer  "target_audience_id"
+    t.integer  "occupation_area_id"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.index ["occupation_area_id"], name: "index_social_entities_on_occupation_area_id", using: :btree
+    t.index ["target_audience_id"], name: "index_social_entities_on_target_audience_id", using: :btree
+    t.index ["user_id"], name: "index_social_entities_on_user_id", using: :btree
   end
 
   create_table "target_audiences", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -59,5 +77,8 @@ ActiveRecord::Schema.define(version: 20180417171330) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
   end
 
+  add_foreign_key "social_entities", "occupation_areas"
+  add_foreign_key "social_entities", "target_audiences"
+  add_foreign_key "social_entities", "users"
   add_foreign_key "tasks", "users"
 end
