@@ -19,86 +19,86 @@ RSpec.describe 'Social Entity API', type: :request do
         }
     end
 
-    describe 'GET /social_entities' do
+    # describe 'GET /social_entities' do
 
-        context 'when no filter param is sent' do
+    #     context 'when no filter param is sent' do
         
-            before do
-                # é do FactoryGirl, serve para criar vários cadastros do mesmo objeto
-                # neste caso, ele vai criar 5x, de acordo com o que foi parametrizado no factories/tasks
-                create_list(:social_entity, 5, user_id: user.id)
-                get '/social_entities', params: {}, headers: headers 
-            end
+    #         before do
+    #             # é do FactoryGirl, serve para criar vários cadastros do mesmo objeto
+    #             # neste caso, ele vai criar 5x, de acordo com o que foi parametrizado no factories/tasks
+    #             create_list(:social_entity, 5, user_id: user.id)
+    #             get '/social_entities', params: {}, headers: headers 
+    #         end
             
-            it 'returns status code 200' do
-                expect(response).to have_http_status(200)  
-            end
+    #         it 'returns status code 200' do
+    #             expect(response).to have_http_status(200)  
+    #         end
 
-            it 'returns 5 social_entities from database' do
-                expect(json_body[:data].count).to eq(5)
-            end
+    #         it 'returns 5 social_entities from database' do
+    #             expect(json_body[:data].count).to eq(5)
+    #         end
         
-        end 
+    #     end 
 
-        context 'when filter and sorting params is sent' do
-            let!(:notebook_se_1) { create(:social_entity, name: 'Check if the notebook is broken', user_id: user.id ) }
-            let!(:notebook_se_2) { create(:social_entity, name: 'Buy a new notebook', user_id: user.id ) }
-            let!(:other_se_1)    { create(:social_entity, name: 'Fix the door', user_id: user.id ) }
-            let!(:other_se_2)    { create(:social_entity, name: 'Buy a new car', user_id: user.id ) }
+    #     context 'when filter and sorting params is sent' do
+    #         let!(:notebook_se_1) { create(:social_entity, name: 'Check if the notebook is broken', user_id: user.id ) }
+    #         let!(:notebook_se_2) { create(:social_entity, name: 'Buy a new notebook', user_id: user.id ) }
+    #         let!(:other_se_1)    { create(:social_entity, name: 'Fix the door', user_id: user.id ) }
+    #         let!(:other_se_2)    { create(:social_entity, name: 'Buy a new car', user_id: user.id ) }
 
-            before do
-                get '/social_entities?q[name_cont]=note&q[s]=name+ASC', params: {}, headers: headers
-            end
+    #         before do
+    #             get '/social_entities?q[name_cont]=note&q[s]=name+ASC', params: {}, headers: headers
+    #         end
             
-            it 'returns only the social_entities matching and in the correct order' do
-                returned_se_names = json_body[:data].map { |t| t[:attributes][:name] } #map serve para navegar entre os itens do array
+    #         it 'returns only the social_entities matching and in the correct order' do
+    #             returned_se_names = json_body[:data].map { |t| t[:attributes][:name] } #map serve para navegar entre os itens do array
 
-                expect(returned_se_names).to eq([notebook_se_2.name, notebook_se_1.name])  
-            end
+    #             expect(returned_se_names).to eq([notebook_se_2.name, notebook_se_1.name])  
+    #         end
 
-        end
+    #     end
 
-    end
+    # end
     
-    describe 'GET /social_entities/:id' do
-        let(:social_entity) {create(:social_entity, user_id: user.id)}
+    # describe 'GET /social_entities/:id' do
+    #     let(:social_entity) {create(:social_entity, user_id: user.id)}
 
-        before { get "/social_entities/#{social_entity.id}", params: {}, headers: headers }
+    #     before { get "/social_entities/#{social_entity.id}", params: {}, headers: headers }
 
-        it 'returns status code 200' do
-            expect(response).to have_http_status(200)
-        end
+    #     it 'returns status code 200' do
+    #         expect(response).to have_http_status(200)
+    #     end
 
-        it 'returns the json for social_entities' do
-            expect(json_body[:data][:attributes][:name]).to eq(social_entity.name)
-        end
+    #     it 'returns the json for social_entities' do
+    #         expect(json_body[:data][:attributes][:name]).to eq(social_entity.name)
+    #     end
         
-    end
+    # end
     
-    describe 'POST /social_entities' do
-        before do
-            post '/social_entities', params: { social_entity: social_entity_params }.to_json, headers: headers
-        end
+    # describe 'POST /social_entities' do
+    #     before do
+    #         post '/social_entities', params: { social_entity: social_entity_params }.to_json, headers: headers
+    #     end
         
-        context 'when the params are valid' do
-            let(:social_entity_params) { attributes_for(:social_entity) } 
+    #     context 'when the params are valid' do
+    #         let(:social_entity_params) { attributes_for(:social_entity) } 
 
-            it 'returns status code 201' do
-                expect(response).to have_http_status(201)
-            end
+    #         it 'returns status code 201' do
+    #             expect(response).to have_http_status(201)
+    #         end
             
-            # it 'save the social_entity in the database' do
-            #     expect( SocialEntity.find_by( name: social_entity_params[:name] ) ).not_to be_nil 
-            # end
+    #         it 'save the social_entity in the database' do
+    #             expect( SocialEntity.find_by( name: social_entity_params[:name] ) ).not_to be_nil 
+    #         end
 
-            # it 'returns the json for created social_entity' do
-            #     expect(json_body[:data][:attributes][:name]).to eq(social_entity_params[:name])
-            # end
+    #         it 'returns the json for created social_entity' do
+    #             expect(json_body[:data][:attributes][:name]).to eq(social_entity_params[:name])
+    #         end
 
-            # it 'assigns the created social_entity to the current user' do
-            #     expect(json_body[:data][:attributes][:'user-id']).to eq(user.id)
-            # end
-        end
+    #         it 'assigns the created social_entity to the current user' do
+    #             expect(json_body[:data][:attributes][:'user-id']).to eq(user.id)
+    #         end
+    #     end
 
         # context 'when the params are invalid' do
         #     let(:social_entity_params) { attributes_for(:social_entity, name: ' ') }
@@ -118,7 +118,7 @@ RSpec.describe 'Social Entity API', type: :request do
         # end
         
         
-    end
+    # end
     
     # describe 'PUT /social_entities/:id' do
     #   let!(:task) { create(:task, user_id: user.id ) }
