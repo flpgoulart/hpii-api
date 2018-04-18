@@ -40,6 +40,8 @@ Rails.application.routes.draw do
       resources :sessions, only: [:create, :destroy]
       resources :target_audiences, only: [:index, :show, :create, :update, :destroy]
       resources :occupation_areas, only: [:index, :show, :create, :update, :destroy]
+      resources :social_entities, only: [:index, :show, :create]
+      
     end
 
   end 
