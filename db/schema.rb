@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180418065034) do
+ActiveRecord::Schema.define(version: 20180423205218) do
 
   create_table "occupation_areas", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -31,6 +31,10 @@ ActiveRecord::Schema.define(version: 20180418065034) do
     t.integer  "occupation_area_id"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.string   "you_are_a"
+    t.string   "facebook_url"
+    t.string   "address_comp"
+    t.string   "cnpj_no"
     t.index ["occupation_area_id"], name: "index_social_entities_on_occupation_area_id", using: :btree
     t.index ["target_audience_id"], name: "index_social_entities_on_target_audience_id", using: :btree
     t.index ["user_id"], name: "index_social_entities_on_user_id", using: :btree

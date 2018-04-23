@@ -42,7 +42,8 @@ class Api::V3::SocialEntitiesController < Api::V3::BaseController
     def social_entity_params
         params.require(:social_entity).permit(:name, :about_us, :phone_number, :mobile_number, 
                                               :email_contact, :site, :address, :target_audience_id, 
-                                              :occupation_area_id)
+                                              :occupation_area_id, :you_are_a, :facebook_url, :address_comp,
+                                              :cnpj_no)
 
     end
 end
