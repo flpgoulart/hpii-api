@@ -18,9 +18,24 @@ class Api::V3::SocialEntitiesController < Api::V3::BaseController
         if social_entity.save
             render json: social_entity, status: 201
         else
-            byebug
             render json: { errors: social_entity.errors }, status: 422
         end 
+    end
+
+    def update
+        social_entity = current_user.social_entities.find(params[:id])
+
+        if social_entity.update_attributes(social_entity_params)
+            render json: social_entity, status: 200
+        else
+            render json: { errors: social_entity.errors }, status: 422
+        end
+    end
+
+    def destroy
+        social_entity = current_user.social_entities.find(params[:id])
+        social_entity.destroy
+        head 204
     end
 
     private

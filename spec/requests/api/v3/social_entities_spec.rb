@@ -81,98 +81,102 @@ RSpec.describe 'Social Entity API', type: :request do
         end
         
         context 'when the params are valid' do
-            let(:social_entity_params) { attributes_for(:social_entity) } 
+            let(:occupation_area) { create(:occupation_area)}
+            let(:target_audiences) { create(:target_audience)}
+            let(:social_entity_params) { attributes_for(:social_entity, occupation_area_id: occupation_area.id, target_audience_id: target_audience.id) } 
 
             it 'returns status code 201' do
                 expect(response).to have_http_status(201)
             end
             
-            # it 'save the social_entity in the database' do
-            #     expect( SocialEntity.find_by( name: social_entity_params[:name] ) ).not_to be_nil 
-            # end
+            it 'save the social_entity in the database' do
+                expect( SocialEntity.find_by( name: social_entity_params[:name] ) ).not_to be_nil 
+            end
 
-            # it 'returns the json for created social_entity' do
-            #     expect(json_body[:data][:attributes][:name]).to eq(social_entity_params[:name])
-            # end
+            it 'returns the json for created social_entity' do
+                expect(json_body[:data][:attributes][:name]).to eq(social_entity_params[:name])
+            end
 
-            # it 'assigns the created social_entity to the current user' do
-            #     expect(json_body[:data][:attributes][:'user-id']).to eq(user.id)
-            # end
+            it 'assigns the created social_entity to the current user' do
+                expect(json_body[:data][:attributes][:'user-id']).to eq(user.id)
+            end
         end
 
-        # context 'when the params are invalid' do
-        #     let(:social_entity_params) { attributes_for(:social_entity, name: ' ') }
+        context 'when the params are invalid' do
+            let(:occupation_area) { create(:occupation_area)}
+            let(:target_audiences) { create(:target_audience)}
+            let(:social_entity_params) { attributes_for(:social_entity, name: ' ', occupation_area_id: occupation_area.id, target_audience_id: target_audience.id) }
 
-        #     it 'returns status code 422' do
-        #         expect(response).to have_http_status(422)
-        #     end
+            it 'returns status code 422' do
+                expect(response).to have_http_status(422)
+            end
 
-        #     it 'does not save the social_entity in the database' do
-        #         expect( SocialEntity.find_by( name: social_entity_params[:name] ) ).to be_nil 
-        #     end
+            it 'does not save the social_entity in the database' do
+                expect( SocialEntity.find_by( name: social_entity_params[:name] ) ).to be_nil 
+            end
 
-        #     # neste teste, ele especifica que quer especificamente o erro no titulo
-        #     it 'returns the json errors for name' do
-        #         expect(json_body[:errors]).to have_key(:name)
-        #     end
-        # end
+            # neste teste, ele especifica que quer especificamente o erro no titulo
+            it 'returns the json errors for name' do
+                expect(json_body[:errors]).to have_key(:name)
+            end
+        end
         
         
     end
     
-    # describe 'PUT /social_entities/:id' do
-    #   let!(:task) { create(:task, user_id: user.id ) }
-    #   before do
-    #       put "/social_entities/#{task.id}", params: { task: task_params }.to_json, headers: headers
-    #   end
+    describe 'PUT /social_entities/:id' do
+      let!(:social_entity) { create(:social_entity, user_id: user.id ) }
+      before do
+          put "/social_entities/#{social_entity.id}", params: { social_entity: social_entity_params }.to_json, headers: headers
+      end
       
-    #   context 'when the params are valid' do
-    #       let(:task_params) { { title: 'New task title' } }
+      context 'when the params are valid' do
+          let(:social_entity_params) { { name: 'New social entity name' } }
 
-    #       it 'return status code 200' do
-    #         expect(response).to have_http_status(200) 
-    #       end
+          it 'return status code 200' do
+            expect(response).to have_http_status(200) 
+          end
 
-    #       it 'returns the json for updated social_entities' do
-    #         expect(json_body[:data][:attributes][:title]).to eq(task_params[:title])
-    #       end
+          it 'returns the json for updated social_entities' do
+            expect(json_body[:data][:attributes][:name]).to eq(social_entity_params[:name])
+          end
 
-    #       it 'updates the task in the database' do 
-    #         expect(Task.find_by(title: task_params[:title])).not_to be_nil 
-    #       end
-    #   end
+          it 'updates the social_entity in the database' do 
+            expect(SocialEntity.find_by(name: social_entity_params[:name])).not_to be_nil 
+          end
+      end
     
-    #   context 'when the params are invalid' do
-    #       let(:task_params) { { title: ' ' } }
+      context 'when the params are invalid' do
+          let(:social_entity_params) { { name: ' ' } }
 
-    #       it 'return status code 422' do
-    #         expect(response).to have_http_status(422) 
-    #       end
+          it 'return status code 422' do
+            expect(response).to have_http_status(422) 
+          end
 
-    #       it 'returns the json error for title' do
-    #         expect(json_body[:errors]).to have_key(:title)
-    #       end
+          it 'returns the json error for name' do
+            expect(json_body[:errors]).to have_key(:name)
+          end
 
-    #       it 'does not update the task in the database' do
-    #         expect( Task.find_by(title: task_params[:title]) ).to be_nil
-    #       end
-    #   end
+          it 'does not update the social_entity in the database' do
+            expect( SocialEntity.find_by(name: social_entity_params[:name]) ).to be_nil
+          end
+      end
       
-    # end
+    end
 
-    # describe 'DELETE /tasks/:id' do
-    #   let!(:task) { create(:task, user_id: user.id) }
+    describe 'DELETE /social_entities/:id' do
+      let!(:social_entity) { create(:social_entity, user_id: user.id) }
 
-    #   before do
-    #       delete "/tasks/#{task.id}", params: {}, headers: headers
-    #   end
+      before do
+          delete "/social_entities/#{social_entity.id}", params: {}, headers: headers
+      end
       
-    #   it 'returns status code 204' do
-    #       expect(response).to have_http_status(204)
-    #   end
+      it 'returns status code 204' do
+          expect(response).to have_http_status(204)
+      end
 
-    #   it 'removes the task from the database' do
-    #       expect{ Task.find(task.id) }.to raise_error(ActiveRecord::RecordNotFound)
-    #   end
-    # end
+      it 'removes the social_entity from the database' do
+          expect{ SocialEntity.find(social_entity.id) }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
 end
