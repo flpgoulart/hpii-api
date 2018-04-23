@@ -85,9 +85,6 @@ RSpec.describe 'Social Entity API', type: :request do
             let(:target_audiences) { create(:target_audience)}
             let(:social_entity_params) { attributes_for(:social_entity, occupation_area_id: occupation_area.id, target_audience_id: target_audience.id) } 
 
-    #         it 'returns status code 201' do
-    #             expect(response).to have_http_status(201)
-    #         end
             
             it 'save the social_entity in the database' do
                 expect( SocialEntity.find_by( name: social_entity_params[:name] ) ).not_to be_nil 
@@ -122,7 +119,7 @@ RSpec.describe 'Social Entity API', type: :request do
         end
         
         
-    # end
+    end
     
     describe 'PUT /social_entities/:id' do
       let!(:social_entity) { create(:social_entity, user_id: user.id ) }
