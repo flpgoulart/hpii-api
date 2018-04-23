@@ -4,6 +4,7 @@ RSpec.describe TaskType, type: :model do
   
   let(:task_type) { build(:task_type) }
 
+  it { is_expected.to have_many(:tasks).dependent(:destroy) }
   it { is_expected.to validate_presence_of :name }
   
   # este passo é importante listar todos os campos previstos na aplicação, caso tenha algum não previsto, ele acusará no teste

@@ -81,7 +81,8 @@ RSpec.describe 'Task API', type: :request do
         end
         
         context 'when the params are valid' do
-            let(:task_params) { attributes_for(:task) } 
+            let(:task_type) { create(:task_type)}
+            let(:task_params) { attributes_for(:task, task_type_id: task_type.id) } 
 
             it 'returns status code 201' do
                 expect(response).to have_http_status(201)
