@@ -8,6 +8,8 @@ RSpec.describe SocialEntity, type: :model do
   it { is_expected.to belong_to(:occupation_area) }
   it { is_expected.to belong_to(:target_audience) }
 
+  it { is_expected.to have_many(:improvements).dependent(:destroy) }
+
   it { is_expected.to validate_presence_of :name }
   it { is_expected.to validate_presence_of :address }
   it { is_expected.to validate_presence_of :you_are_a }
