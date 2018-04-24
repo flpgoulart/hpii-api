@@ -10,7 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180423205218) do
+ActiveRecord::Schema.define(version: 20180424001525) do
+
+  create_table "improvements", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.text     "short_description",  limit: 65535
+    t.text     "description",        limit: 65535
+    t.string   "address"
+    t.string   "address_comp"
+    t.integer  "limit_volunteers"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.text     "knowledge_required", limit: 65535
+    t.text     "support_materials",  limit: 65535
+    t.string   "status"
+    t.integer  "social_entity_id"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.index ["social_entity_id"], name: "index_improvements_on_social_entity_id", using: :btree
+  end
 
   create_table "occupation_areas", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -89,6 +107,7 @@ ActiveRecord::Schema.define(version: 20180423205218) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
   end
 
+  add_foreign_key "improvements", "social_entities"
   add_foreign_key "social_entities", "occupation_areas"
   add_foreign_key "social_entities", "target_audiences"
   add_foreign_key "social_entities", "users"
