@@ -48,7 +48,7 @@ class Api::V3::ImprovementsController < Api::V3::BaseController
 
     private
     def improvement_params
-        params.require(:improvement).permit(:title, :short_description, :description, 
+        params.require(:improvement).permit(:title, :short_description, :description, :people_benefited,
                                             :address, :address_comp, :limit_volunteers, 
                                             :start_date, :end_date, :knowledge_required, 
                                             :support_materials, :status, :social_entity_id)

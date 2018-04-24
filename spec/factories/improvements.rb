@@ -11,6 +11,7 @@ FactoryGirl.define do
         end_date { Faker::Date.forward }
         knowledge_required { Faker::Lorem.paragraph }
         support_materials { Faker::Lorem.paragraph }
+        people_benefited { Faker::Number.number(4) }
         status {'R'}
 
         social_entity

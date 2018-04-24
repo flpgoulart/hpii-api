@@ -13,6 +13,8 @@ RSpec.describe Improvement, type: :model do
   it { is_expected.to validate_presence_of :start_date }
   it { is_expected.to validate_presence_of :end_date }
   it { is_expected.to validate_presence_of :status }
+  it { is_expected.to validate_presence_of :people_benefited }
+  
 
   it { is_expected.to validate_presence_of :social_entity_id }
   
@@ -28,6 +30,7 @@ RSpec.describe Improvement, type: :model do
   it { is_expected.to respond_to(:knowledge_required) }
   it { is_expected.to respond_to(:support_materials) }
   it { is_expected.to respond_to(:status) }
+  it { is_expected.to respond_to(:people_benefited) }
   it { is_expected.to respond_to(:social_entity_id) }
   
 end
