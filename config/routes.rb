@@ -43,6 +43,7 @@ Rails.application.routes.draw do
       resources :occupation_areas, only: [:index, :show, :create, :update, :destroy]
       resources :social_entities, only: [:index, :show, :create, :update, :destroy]
       resources :improvements, only: [:index, :show, :create, :update, :destroy]
+      resources :volunteers, only: [:index, :show, :create, :update, :destroy]
     end
 
   end 
