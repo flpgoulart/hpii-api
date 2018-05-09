@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180424195729) do
+ActiveRecord::Schema.define(version: 20180509172952) do
 
   create_table "improvements", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
@@ -108,10 +108,22 @@ ActiveRecord::Schema.define(version: 20180424195729) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
   end
 
+  create_table "volunteers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.string   "address"
+    t.string   "address_comp"
+    t.string   "status"
+    t.integer  "user_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["user_id"], name: "index_volunteers_on_user_id", using: :btree
+  end
+
   add_foreign_key "improvements", "social_entities"
   add_foreign_key "social_entities", "occupation_areas"
   add_foreign_key "social_entities", "target_audiences"
   add_foreign_key "social_entities", "users"
   add_foreign_key "tasks", "task_types"
   add_foreign_key "tasks", "users"
+  add_foreign_key "volunteers", "users"
 end
